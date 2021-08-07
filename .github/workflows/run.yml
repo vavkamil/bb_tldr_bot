@@ -33,6 +33,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Cache database
+        uses: actions/cache@v2
+        with:
+          path: reddit_data.db
+          key: reddit_data.db
+
       - name: Run bb_tldr_bot.py
         # Get Repository secrets
         env:
@@ -42,12 +48,6 @@ jobs:
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
         run: |
           python bb_tldr_bot.py
-
-      - name: Cache database
-        uses: actions/cache@v2
-        with:
-          path: reddit_data.db
-          key: reddit_data.db
   
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
