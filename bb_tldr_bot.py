@@ -143,7 +143,7 @@ This is the best tl;dr I could make, [original]({}) reduced by {}. (I'm a bot)
 
 ---
 
-[Summary Source](https://smmry.com/{}) | [**Source code**](https://github.com/vavkamil) | [Feedback](http://www.reddit.com/message/compose?to=%5Fvavkamil%5F) | Keywords: **{}**
+[Summary Source](https://smmry.com/{}) | [**Source code**](https://github.com/vavkamil/bb_tldr_bot) | [Feedback](http://www.reddit.com/message/compose?to=%5Fvavkamil%5F) | Keywords: **{}**
 """
 
         reply_text = reply_template.format(
