@@ -14,7 +14,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  bb_tldr_bot:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -33,12 +33,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Download artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: reddit_data
-          path: reddit_data.db
-
       - name: Run bb_tldr_bot.py
         # Get Repository secrets
         env:
@@ -49,6 +43,12 @@ jobs:
         run: |
           python bb_tldr_bot.py
 
+      - name: Cache database
+        uses: actions/cache@v2
+        with:
+          path: reddit_data.db
+          key: reddit_data.db
+  
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
