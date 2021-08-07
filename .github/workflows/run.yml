@@ -22,15 +22,24 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
           python-version: 3.8.5
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Analysing the code with pylint
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: reddit_data
+          path: reddit_data.db
+
+      - name: Run bb_tldr_bot.py
         # Get Repository secrets
         env:
           API_KEY: ${{ secrets.API_KEY }}
@@ -39,3 +48,9 @@ jobs:
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
         run: |
           python bb_tldr_bot.py
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: reddit_data
+          path: reddit_data.db
