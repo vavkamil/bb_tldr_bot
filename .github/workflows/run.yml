@@ -37,7 +37,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: reddit_data.db
-          key: reddit_data-${{ hashFiles('reddit_data.db') }}
+          key: ${{ runner.os }}-reddit_data-${{ hashFiles('reddit_data.db') }}
 
       - name: Run bb_tldr_bot.py
         # Get Repository secrets
