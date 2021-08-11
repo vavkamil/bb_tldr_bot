@@ -35,12 +35,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      #- name: Cache database
-        #uses: actions/cache@v2
-        #with:
-          #path: reddit_data.db
-          #key: ${{ runner.os }}-reddit_data-${{ hashFiles('reddit_data.db') }}
-
       - name: Run bb_tldr_bot.py
         # Get Repository secrets
         env:
