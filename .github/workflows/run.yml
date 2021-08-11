@@ -50,12 +50,6 @@ jobs:
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
         run: |
           python bb_tldr_bot.py
-  
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: reddit_data
-          path: reddit_data.db
           
       - name: Commit files # transfer the new html files back into the repository
         run: |
@@ -67,3 +61,4 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
