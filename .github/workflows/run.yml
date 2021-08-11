@@ -52,13 +52,14 @@ jobs:
           python bb_tldr_bot.py
           
       - name: Commit files # transfer the new html files back into the repository
+        continue-on-error: true # Allow failure if nothing to commit
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add reddit_data.db
           git commit -m "Updating sqlite3 db" -a
+
       - name: Push changes # push the output folder to your repo
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          force: true
