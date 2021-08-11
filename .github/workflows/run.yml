@@ -35,11 +35,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Cache database
-        uses: actions/cache@v2
-        with:
-          path: reddit_data.db
-          key: ${{ runner.os }}-reddit_data-${{ hashFiles('reddit_data.db') }}
+      #- name: Cache database
+        #uses: actions/cache@v2
+        #with:
+          #path: reddit_data.db
+          #key: ${{ runner.os }}-reddit_data-${{ hashFiles('reddit_data.db') }}
 
       - name: Run bb_tldr_bot.py
         # Get Repository secrets
@@ -56,3 +56,14 @@ jobs:
         with:
           name: reddit_data
           path: reddit_data.db
+          
+      - name: Commit files # transfer the new html files back into the repository
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add reddit_data.db
+          git commit -m "Updating sqlite3 db" -a
+      - name: Push changes # push the output folder to your repo
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
