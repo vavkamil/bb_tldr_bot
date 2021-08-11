@@ -4,9 +4,10 @@ import os
 import re
 import json
 import praw
-import sqlite3
+import pathlib
 import requests
 import urllib.parse
+from datetime import datetime
 
 api_key = os.environ.get("API_KEY")
 api_url = "https://api.smmry.com"
@@ -17,12 +18,6 @@ reddit_client_id = os.environ.get("REDDIT_CLIENT_ID")
 reddit_client_secret = os.environ.get("REDDIT_CLIENT_SECRET")
 
 deny_list = ["www.reddit.com", "youtu.be", "github.com", "hackerone.com"]
-
-
-def sqlite_connect():
-    con = sqlite3.connect("reddit_data.db")
-    cur = con.cursor()
-    return con, cur
 
 
 def reddit_api_auth():
@@ -55,31 +50,20 @@ def check_submissions(reddit):
 
 
 def check_duplicates(feed_dict):
-    con, cur = sqlite_connect()
-
     for k, v in list(feed_dict.items()):
         reddit_id = feed_dict[k]["reddit_id"]
         post_url = feed_dict[k]["post_url"]
 
-        cur.execute(
-            f"SELECT * FROM reddit WHERE reddit_id = (?)",
-            [reddit_id],
-        )
-        con.commit()
-        if cur.fetchone() == None:
-            print(
-                f"[i] New post: https://www.reddit.com/r/bugbounty/comments/{reddit_id}\n"
-            )
-
-            cur.execute(
-                f"INSERT INTO reddit (reddit_id) VALUES (?)",
-                [reddit_id],
-            )
-            con.commit()
-        else:
+        file = pathlib.Path(f"output/{reddit_id}.json")
+        if file.exists():
             del feed_dict[k]
-
-    con.close()
+        else:
+            f = open(f"output/{reddit_id}.json", "w+")
+            new_feed_dict = feed_dict[k].copy()
+            now = datetime.now()
+            new_feed_dict["date"] = now.strftime("%Y-%m-%d")
+            f.write(json.dumps(new_feed_dict))
+            f.close()
 
     return feed_dict
 
@@ -141,7 +125,7 @@ This is the best tl;dr I could make, [original]({}) reduced by {}. (I'm a bot)
 
 ---
 
-[Summary Source](https://smmry.com/{}) | [**Source code**](https://github.com/vavkamil/bb_tldr_bot) | Keywords: **{}**
+[Summary Source](https://smmry.com/{}) | [**Source code**](https://github.com/vavkamil) | [Feedback](http://www.reddit.com/message/compose?to=%5Fvavkamil%5F) | Keywords: **{}**
 """
 
         reply_text = reply_template.format(
