@@ -3,10 +3,10 @@
 name: bb_tldr_bot
 
 # Controls when the workflow will run
-on:
-  schedule:
+#on:
+#  schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '*/15 * * * *'
+#    - cron:  '*/15 * * * *'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
