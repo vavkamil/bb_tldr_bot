@@ -41,8 +41,6 @@ def check_submissions(reddit):
     i = 0
     feed_dict = {}
 
-    subreddit = reddit.subreddit("bugbounty")
-
     for submission in reddit.subreddit("bugbounty").new(limit=10):
 
         hostname = urllib.parse.urlparse(submission.url).netloc
