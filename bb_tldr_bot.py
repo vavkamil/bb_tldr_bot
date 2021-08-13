@@ -58,12 +58,10 @@ def check_duplicates(feed_dict):
         if file.exists():
             del feed_dict[k]
         else:
-            f = open(f"output/{reddit_id}.json", "w+")
             new_feed_dict = feed_dict[k].copy()
             now = datetime.now()
             new_feed_dict["date"] = now.strftime("%Y-%m-%d")
-            f.write(json.dumps(new_feed_dict))
-            f.close()
+            file.write_text(json.dumps(new_feed_dict))
 
     return feed_dict
 
