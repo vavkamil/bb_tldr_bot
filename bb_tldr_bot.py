@@ -114,8 +114,7 @@ def post_to_reddit(reddit, smmry_dict):
 
         submission = reddit.submission(id=reddit_id)
 
-        reply_template = """### {}
-This is the best tl;dr I could make, [original]({}) reduced by {}. (I'm a bot)
+        reply_template = """This is the best tl;dr I could make, [original]({}) reduced by {}. (I'm a bot)
 
 ---
 
@@ -127,7 +126,7 @@ This is the best tl;dr I could make, [original]({}) reduced by {}. (I'm a bot)
 """
 
         reply_text = reply_template.format(
-            title, post_url, reduced, content, post_url, keywords
+            post_url, reduced, content, post_url, keywords
         )
         submission.reply(reply_text)
 
