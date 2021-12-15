@@ -122,7 +122,7 @@ def post_to_reddit(reddit, smmry_dict):
 
 ---
 
-[Summary Source](https://smmry.com/{}) | [**Source code**](https://github.com/vavkamil) | Keywords: **{}**
+[Summary Source](https://smmry.com/{}) | [**Source code**](https://github.com/vavkamil/bb_tldr_bot/) | Keywords: **{}**
 """
 
         reply_text = reply_template.format(
